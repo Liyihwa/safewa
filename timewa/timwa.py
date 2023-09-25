@@ -2,6 +2,22 @@ import time
 
 '''
 https://zhuanlan.zhihu.com/p/111022726
+
+返回该timestamp对应的持续时间是多久
+该方法不够精确,在毫秒级别上误差比较大,如需精确表示,建议采用: perf_counter()方法
+可接受的format元素有:
+%d  日
+%H  时
+%M  分
+%S  秒
+%f  毫秒
+%%  %字符
+
+假设timestamp为1小时20分
+format=%M的话,则结果为80
+format=%H的话,结果为1
+使用时请按照foramt时间单位从大到小的顺序,日时分秒 毫秒
+
 '''
 
 
@@ -16,24 +32,7 @@ class Time:
     def format(self, _format="%y-%m-%d %H:%M:%S"):
         return time.strftime(_format, time.localtime(self.timestamp))
 
-    '''
-        返回该timestamp对应的持续时间是多久
-        该方法不够精确,在毫秒级别上误差比较大,如需精确表示,建议采用: perf_counter()方法
-        可接受的format元素有:
-        %d  日
-        %H  时
-        %M  分
-        %S  秒
-        %u  毫秒
-        %%  %字符
-        
-        假设timestamp为1小时20分
-            format=%M的话,则结果为80
-            format=%H的话,结果为1
-        使用时请按照foramt时间单位从大到小的顺序,日时分秒 毫秒
-    '''
-
-    def dur_format(self, _format="%S:%u"):
+    def dur_format(self, _format="%S:%f"):
         __timestamp = int(self.timestamp * 1000)
         res = ""
         i = 0

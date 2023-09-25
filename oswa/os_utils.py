@@ -1,12 +1,12 @@
 #!e:/Enviorment/Python/py3.8/python.exe
 # -*- coding: utf-8 -*-
 '''
-对于文件名的拼接,最好用 os.path.join(path,name),不要自己手动拼接
+对于文件名的拼接,最好用 oswa.path.join(path,name),不要自己手动拼接
 '''
 
-import os
+import oswa
 import re
-
+import os
 
 def isfile(path):
     return os.path.isfile(path)
@@ -168,7 +168,3 @@ def write(path, _str, cover=False, create=True, _encoding="utf8"):
                 _f.write(_str)
         else:
             raise RuntimeError("文件" + path + "已存在")
-
-
-if __name__ == '__main__':
-    print(ls("E:\\"))

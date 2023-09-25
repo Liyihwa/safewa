@@ -1,2 +1,2 @@
-from logwa.logwa import *
-version="1.0"
+from .logger import *
+from . import progressbar
