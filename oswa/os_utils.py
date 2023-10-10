@@ -4,6 +4,7 @@
 对于文件名的拼接,最好用 oswa.path.join(path,name),不要自己手动拼接
 '''
 import re
+import ctypes
 import os
 
 def isfile(path):
@@ -166,3 +167,10 @@ def write(path, _str, cover=False, create=True, _encoding="utf8"):
                 _f.write(_str)
         else:
             raise RuntimeError("文件" + path + "已存在")
+
+# 返回当前用户是否是admin
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except AttributeError:
+        return False
