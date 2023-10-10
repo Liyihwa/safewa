@@ -29,9 +29,11 @@ class Bytes:
         return self.data.hex()
 
     def to_hex_list(self):
+        self.print("utf8")
         return list(self.data.hex())
 
     def hex_decode(self):
+        print(self.to_string("ascii"))
         return Bytes(bytearray.fromhex(self.to_string("ascii")))
 
     # ===================================
@@ -95,48 +97,53 @@ class Bytes:
 
     # =======================================
     # 摩斯加密仅支持字母,数字
-    __morse_code = [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.",
-                    "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..", "-----",
-                    ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----."]
+    __std_code = {
+        '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E', '..-.': 'F',
+        '--.': 'G', '....': 'H', '..': 'I', '.---': 'J', '-.-': 'K', '.-..': 'L',
+        '--': 'M', '-.': 'N', '---': 'O', '.--.': 'P', '--.-': 'Q', '.-.': 'R',
+        '...': 'S', '-': 'T', '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X',
+        '-.--': 'Y', '--..': 'Z', '.----': '1', '..---': '2', '...--': '3',
+        '....-': '4', '.....': '5', '-....': '6', '--...': '7', '---..': '8',
+        '----.': '9', '-----': '0', '/': ' ',
+        '.-.-.-': '.', '--..--': ',', '..--..': '?', '.----.': "'", '-.-.--': '!',
+        '-..-.': '/', '-.--.': '(', '-.--.-': ')', '.-...': '&', '---...': ':',
+        '-.-.-.': ';', '-...-': '=', '.-.-.': '+', '-....-': '-', '..--.-': '_',
+        '.-..-.': '"', '...-..-': '$', '.--.-.': '@',
+    }
 
-    def morse_encode(self, point='.', line='-', ch_seg=" "):
-        res = bytearray()
+
+    __morse_code = {value: key for key, value in __std_code.items()}
+
+    def morse_encode(self, point='.', line='-', ch_seg="/", alert=False):
+        res = []
+
         for it in self.data:
             if ord('a') <= it <= ord('z'):
-                res.extend(bytes(Bytes.__morse_code[it - ord('a')] + ch_seg, "ascii"))
-            elif ord('A') <= it <= ord('Z'):
-                res.extend(bytes(Bytes.__morse_code[it - ord('A')] + ch_seg, "ascii"))
-            elif ord('0') <= it <= ord('9'):
-                res.extend(bytes(Bytes.__morse_code[it - ord('0') + 26] + ch_seg, "ascii"))
+                it = chr(it - ord('a') + ord('A'))
             else:
-                raise Exception("Unknow char {}".format(it))
-        if point != '.':
-            res.replace(bytes('.', "ascii"), bytes(point))
-        if line != '-':
-            res.replace(bytes('.', "ascii"), bytes(line))
-        if res.endswith(bytes(' ', "ascii")):
-            res.pop(len(res) - 1)
-        return Bytes(res)
+                it = chr(it)
+            res.append(Bytes.__morse_code[it].replace(".", point).replace("-", line) + ch_seg)
+        return Bytes.from_string("".join(res)[:-len(ch_seg)])
 
     # todo 使用哈夫曼树优化
-    def morse_decode(self, point='.', line='-', ch_seg=" "):
+    def morse_decode(self, point='.', line='-', ch_seg="/", alert=False):
         sps = str(self)
         if point != '.':
             sps = sps.replace(point, '.')
         if line != '-':
             sps = sps.replace(line, '-')
-        res = bytearray()
+        res = []
 
         for it in sps.split(ch_seg):
-            if it not in Bytes.__morse_code:
-                raise Exception("{} Match error".format(it))
-            fd = Bytes.__morse_code.index(it)
-            if fd < 26:
-                res.append(fd + ord('a'))
+            if it not in Bytes.__std_code:
+                if alert:
+                    raise Exception("{} Match error".format(it))
+                else:
+                    res.extend(it)
             else:
-                res.append(fd - 26 + ord('0'))
+                res.append(Bytes.__std_code[it])
 
-        return Bytes(res)
+        return Bytes.from_string("".join(res))
 
     # =======================================
     def base64_decode(self):
@@ -161,22 +168,21 @@ class Bytes:
         return Bytes.from_string(url)
 
     def url_decode(self):
-        string = str(self.data)
         res = []
         i = 0
-        while i < len(string):
-            if string[i] == '%':
-                res.append(int(string[i + 1:i + 3], 16))
+        while i < len(self.data):
+            if self.data[i] == ord('%'):
+                res.append(int((self.data[i + 1:i + 3].decode("ascii")), 16))
                 i += 3
             else:
-                res.append(ord(string[i]))
+                res.append(self.data[i])
                 i += 1
         return Bytes(bytearray(res))
 
     # =======================================
     '''将Bytes视为 外表为unicode的字符串,并进行unicode_escape解码
         例如字符串 r"\u4e2d\u56fd"
-        经过该decode方法后,得到bytearray为b"\\u4e2d\\u56fd"的Bytes
+        经过该decode方法后,得到b"\\u4e2d\\u56fd"的Bytes
     '''
 
     def unicode_decode(self):

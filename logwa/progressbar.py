@@ -53,12 +53,16 @@ class ProgressBar:
         console.write(self.progress_func(self.handling, self.total, self.time_start))
         console.to_linestart()
         console.flush()
+        if self.handling==self.total:
+            self.interrupt()
 
     def update(self):
         self.handling += 1
 
+
     def debug(self, *args):
         self.debugf("{} "*len(args), *args)
+
 
     def debugf(self, msgfmt, *args):
         if self.std_logger != None:
