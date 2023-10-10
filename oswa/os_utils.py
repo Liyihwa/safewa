@@ -3,8 +3,6 @@
 '''
 对于文件名的拼接,最好用 oswa.path.join(path,name),不要自己手动拼接
 '''
-
-import oswa
 import re
 import os
 

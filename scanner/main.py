@@ -1,12 +1,13 @@
 import socket
 import logwa
+
 '''
     scanner是一个ip/port扫描器
 '''
 
 
 def scan_local_network():
-    logwa.info("localhost:{}",socket.gethostname())
+    logwa.infof("localhost:{}", socket.gethostname())
     # ip_prefix = '.'.join(socket.gethostbyname(socket.gethostname()).split('.')[:-1])
     #
     # for i in range(1, 255):

@@ -18,7 +18,7 @@ def arp_request(dst_ip, src=Role(mac=globvar.LOCAL_MAC, ip=globvar.LOCAL_IPv4), 
 
 
 # 以src的身份告诉dst,src.ip的mac地址为src.mac
-def arp_response(dst,src=Role(ip=globvar.LOCAL_IPv4,mac=globvar.LOCAL_MAC),interface=globvar.INTERFACE):
+def arp_response(dst, src=Role(ip=globvar.LOCAL_IPv4, mac=globvar.LOCAL_MAC), interface=globvar.INTERFACE):
     arp = Ether(src=src.mac, dst=dst.mac) / ARP(hwdst=dst.mac,hwsrc=src.mac,pdst=dst.ip,psrc=src.ip)  # 构造数据包
     arp[ARP].op=2   # response
     arp[ARP].hwlen = 6

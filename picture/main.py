@@ -1,4 +1,4 @@
-from PIL import Image,ImageDraw,ImageFont
+from PIL import Image
 
 import crypt
 import logwa
@@ -32,9 +32,9 @@ def LSB_extract(img):
 #图片自动分析工具
 def auto(filepath):
     file=crypt.Bytes.from_file(filepath)
-    logwa.infof("不严格ascii: {}",(file.to_ascii_list("")))
-    logwa.infof("exif以及其他信息: {}",get_info(filepath))
-    logwa.infof("{::gx}","Complete! ==============")
+    logwa.infof("不严格ascii: {}", (file.to_ascii_list("")))
+    logwa.infof("exif以及其他信息: {}", get_info(filepath))
+    logwa.infof("{::gx}", "Complete! ==============")
 
     return LSB_extract(Image.open(filepath))
 

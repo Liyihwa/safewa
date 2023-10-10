@@ -1,7 +1,7 @@
 import sys
 from enum import Enum
-from timewa import Time
 
+from timewa import Time
 from .cfmt import cfmt
 
 class Level(Enum):

@@ -1,6 +1,5 @@
 import time
 
-import logwa
 from . import logger
 from . import console
 
