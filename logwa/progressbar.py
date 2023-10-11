@@ -57,6 +57,8 @@ class ProgressBar:
 
     def update(self,count=1):
         self.handling += count
+        if self.handling==self.total:
+            self.interrupt()
 
 
     def debug(self, *args):
