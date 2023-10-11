@@ -52,13 +52,13 @@ class ProgressBar:
         console.write(self.progress_func(self.handling, self.total, self.time_start))
         console.to_linestart()
         console.flush()
-        if self.handling==self.total:
-            self.interrupt()
+
 
     def update(self,count=1):
         self.handling += count
         if self.handling==self.total:
             self.interrupt()
+
 
 
     def debug(self, *args):
@@ -107,6 +107,7 @@ class ProgressBar:
             l.errof(msgfmt, *args)
 
     def interrupt(self):
+        self.__show_bar()
         console.write("\n")
         console.show()
         console.flush()
