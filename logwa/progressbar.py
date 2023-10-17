@@ -2,7 +2,7 @@ import time
 
 from . import logger
 from . import console
-
+from safewa import timewa
 
 class ProgressBar:
 
@@ -21,7 +21,7 @@ class ProgressBar:
         # 总宽度为102,其中2为符号 -> 的宽度
         nfin = " " * (100 - percentage)
 
-        return "{:3}%[{}->{}] {:.3}s".format(percentage, fin, nfin, time.time() - time_start)
+        return "{:3}%[{}->{}] {:.3}".format(percentage, fin, nfin, timewa.Time(time.time() - time_start).dur_format("%Mm:%Ss"))
 
     def __init__(self, total, progressbar_func=None):
         if progressbar_func is None:
