@@ -53,6 +53,14 @@ class ProgressBar:
         console.to_linestart()
         console.flush()
 
+    def line(self):
+        if self.std_logger is not None:
+            console.to_linestart()
+            console.clear_back()
+            self.std_logger.line()
+            self.__show_bar()
+        for l in self.logger_list:
+            l.line()
 
     def update(self,count=1):
         self.handling += count
@@ -66,7 +74,7 @@ class ProgressBar:
 
 
     def debugf(self, msgfmt, *args):
-        if self.std_logger != None:
+        if self.std_logger is not None:
             console.to_linestart()
             console.clear_back()
             self.std_logger.debugf(msgfmt, *args)
