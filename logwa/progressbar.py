@@ -1,9 +1,7 @@
 import time
-
+import datetime
 from . import logger
 from . import console
-from safewa import timewa
-
 class ProgressBar:
 
     @staticmethod
@@ -20,8 +18,7 @@ class ProgressBar:
         fin = "■" * percentage
         # 总宽度为102,其中2为符号 -> 的宽度
         nfin = " " * (100 - percentage)
-
-        return "{:3}%[{}->{}] {:.3}".format(percentage, fin, nfin, timewa.Time(time.time() - time_start).dur_format("%Mm:%Ss"))
+        return "{:3}%[{}->{}] {:}".format(percentage, fin, nfin, datetime.datetime.fromtimestamp(time.time() - time_start).strftime("%Mm:%Ss"))
 
     def __init__(self, total, progressbar_func=None):
         if progressbar_func is None:

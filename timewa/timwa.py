@@ -29,7 +29,7 @@ class Time:
         self.timestamp = timestamp
 
     # time.strftime目的是将时间戳转为字符串,但是需要用到当地时区,所以我们需要先将其 time.localtime(timestamp),再传入strftime
-    def format(self, _format="%y-%m-%d %H:%M:%S"):
+    def format(self, _format="%y-%m-%d %H:%M:%s"):
         return time.strftime(_format, time.localtime(self.timestamp))
 
     def dur_format(self, _format="%S:%f"):

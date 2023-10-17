@@ -1,5 +1,12 @@
-from crypt import Bytes
-Bytes.from_string("http").morse_encode().print()
-s=r".... - - .--. :// .--. ./.-- .-- .--. . -..- -..- -..- -.-.. .. --- -- ."
-print(Bytes.from_string(s).morse_decode(ch_seg=" ").unicode_decode().to_string().lower())
+import time
+from logwa.progressbar import ProgressBar
 
+p = ProgressBar(100)
+p.start()
+for i in range(0, 100):
+    p.update()
+    p.info("okok")
+    time.sleep(0.1)
+    if i == 50:
+        p.interrupt()
+        break
