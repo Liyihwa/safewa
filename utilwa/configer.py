@@ -1,6 +1,3 @@
-import configparser
-
-
 class Configer:
     def __init__(self, default=None):
         self.__global_default = default
