@@ -1,5 +1,4 @@
-import logwa
-
+from .. import logwa
 
 def from_edge_copy():
     logwa.info("Please input headers from edge, end by Ctrl+D")

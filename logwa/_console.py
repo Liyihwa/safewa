@@ -1,6 +1,6 @@
 import sys
 
-from .cfmt import cfmt
+from ._cfmt import cfmt
 def write(*values):
     for v in values:
         sys.stdout.write(v)

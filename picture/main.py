@@ -1,7 +1,7 @@
 from PIL import Image
 
-import crypt
-import logwa
+from .. import crypt
+from .. import logwa
 import numpy as np
 import exifread
 

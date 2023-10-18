@@ -1,8 +1,8 @@
 import pickle
 
-import oswa
+from .. import oswa
 
-
+# 一次读取多个对象
 def load_all(filepath):
     if not oswa.isfile(filepath):
         raise FileNotFoundError

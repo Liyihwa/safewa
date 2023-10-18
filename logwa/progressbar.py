@@ -1,7 +1,7 @@
 import time
 import datetime
 from . import logger
-from . import console
+from . import _console
 class ProgressBar:
 
     @staticmethod

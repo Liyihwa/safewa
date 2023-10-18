@@ -1,3 +1,3 @@
 from .logger import *
-from . import progressbar
+from .progressbar import ProgressBar
 

@@ -1,6 +1,5 @@
 import socket
-import logwa
-
+from .. import logwa
 '''
     scanner是一个ip/port扫描器
 '''
